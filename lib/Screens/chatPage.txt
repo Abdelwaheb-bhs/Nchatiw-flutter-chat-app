@@ -1,0 +1,80 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:nchatiw_1/Services/authServ.dart';
+import 'package:nchatiw_1/Services/chatServ.dart';
+
+class ChatPage extends StatefulWidget {
+  final String recieverEmail;
+  final String recieverID;
+  const ChatPage({super.key, required this.recieverEmail, required this.recieverID});
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  final ChatServ chatServ = ChatServ();
+  final AuthServ authServ = AuthServ();
+  final _auth=FirebaseAuth.instance;
+  final TextEditingController messageController = TextEditingController();
+  void sendMessage() async{
+    if (messageController.text.isNotEmpty) {
+      await chatServ.sendMessage(widget.recieverID, messageController.text);
+      messageController.clear();
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+  User? getCurrentUser (){
+    return _auth.currentUser;
+  }
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Chatting with ${widget.recieverEmail}')),
+      body: Column(
+        children: [
+          Expanded(
+            child: _buildMessageList(),
+          ),
+          buildUserInput(),
+        ],
+      ),
+    );
+  }
+  Widget _buildMessageList(){
+    String senderId = this.getCurrentUser()!.uid;
+    return StreamBuilder(stream: chatServ.getMessages(widget.recieverID, senderId),
+     builder: (context,snapshot){
+      if (snapshot.hasError) {
+        return Text("has error");
+      }
+      if (snapshot.connectionState==ConnectionState.waiting) {
+        return Text("Loading...");
+      }
+      return ListView(
+        children: snapshot.data!.docs
+        .map((doc) => _buildMessageItem(doc)).toList(),
+      );
+     });
+  }
+  Widget _buildMessageItem(DocumentSnapshot doc){
+    Map<String,dynamic> data = doc.data() as Map<String,dynamic> ;
+    return Text(data["messages"]);
+  }
+  Widget buildUserInput(){
+    return Row(
+      children: [
+        Expanded(child:
+         TextField(
+          controller: messageController,
+          obscureText: false,
+         )),
+         IconButton(onPressed: sendMessage, icon: Icon(Icons.arrow_upward))
+      ],
+    );
+  }
+}

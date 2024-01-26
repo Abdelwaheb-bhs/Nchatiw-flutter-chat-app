@@ -1,0 +1,20 @@
+
+1. Select * From Pilote;
+
+2. Select Nompil, AdrPil From Pilote;
+
+3. Select Distinct VilleD From Vol;
+
+4. Select Nompil From Pilote Where AdrPil = 'Sfax';
+
+5. Select Nompil From Pilote Where SalPil > 3000;
+
+6. Select Nompil From Pilote Where AdrPil Is Null;
+
+7. Select * From Avion Where Nomav In ('A310', 'A320', 'A330', 'A340') ;
+
+8. Select Nompil From Pilote Where SalPil Between 3000 And 5000;
+
+9. Select CapAv From Avion Where Nomav Like 'Airbus%';
+
+10. Select Nomav From Avion Where Nomav Not In ('A310','A320','A330','A340') ;

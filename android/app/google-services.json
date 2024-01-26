@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "87842742302",
+    "project_id": "nchatiw2",
+    "storage_bucket": "nchatiw2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87842742302:android:c6fda05f32852144ad8e0f",
+        "android_client_info": {
+          "package_name": "com.abdoubhs.nchatiw_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDncnsT_GIrxwW8dDgbbBe38AYgRyHNr-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
